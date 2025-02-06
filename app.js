@@ -4,6 +4,7 @@ const cors = require('cors');
 const router = require('./router/index.js');
 const errorHandler = require('./middleware/error-handler.js');
 const app = express();
+require('./model');
 
 // 配置常用中间件
 app.use(morgan('dev'));

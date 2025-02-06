@@ -11,8 +11,8 @@ router.post('/', (req, res) => {
 });
 
 router.use(require('./user'));
-router.use('/profiles', require('./profile'));
-router.use('/articles', require('./article'));
-router.use(require('./tag'));
+router.use('/profiles', require('./profile.js'));
+router.use('/articles', require('./article.js'));
+router.use(require('./tag.js'));
 
 module.exports = router;

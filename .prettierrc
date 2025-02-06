@@ -11,5 +11,5 @@
   "htmlWhitespaceSensitivity": "css",
   "jsxBracketSameLine": false,
   "jsxSingleQuote": false,
-  "trailingComma": "es5"
+  "trailingComma": "none"
 }

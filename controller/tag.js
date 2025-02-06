@@ -1,6 +1,6 @@
 exports.getTag = async (req, res, next) => {
   try {
-    res.send('register users');
+    res.send('tags');
   } catch (err) {
     next(err);
   }
