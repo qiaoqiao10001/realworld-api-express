@@ -1,28 +1,54 @@
 const mongoose = require('mongoose');
 const baseModel = require('./baseModel.js');
 
-const userSchema = new mongoose.Schema({
+const articleSchema = new mongoose.Schema({
   ...baseModel,
-  userName: {
+  title: {
     type: String,
     required: true
   },
-  email: {
+  description: {
     type: String,
     required: true
   },
-  password: {
+  body: {
     type: String,
     required: true
   },
-  bio: {
-    type: String,
+  tagList: {
+    type: [String],
     default: null
   },
-  image: {
-    type: String,
-    default: null
+  favoritesCount: {
+    // 点赞数
+    type: Number,
+    default: 0
+  },
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
   }
 });
 
-module.exports = userSchema;
+//const authorSchema = new mongoose.Schema({
+//  username: {
+//    type: String,
+//    required: true
+//  },
+//  bio: {
+//    type: String,
+//    default: null
+//  },
+//  image: {
+//    type: String,
+//    default: null
+//  },
+//  following: {
+//    type: Boolean,
+//    default: false
+//  }
+//});
+
+//const Author = mongoose.model('Author', authorSchema);
+
+module.exports = articleSchema;

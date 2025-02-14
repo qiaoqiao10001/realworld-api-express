@@ -1,5 +1,6 @@
 const { User } = require('../model');
-
+const jwt = require('../util/jwt');
+const { jwtSecret } = require('../config/config.default.js');
 exports.register = async (req, res, next) => {
   try {
     // 1. 获取请求体数据
@@ -10,8 +11,12 @@ exports.register = async (req, res, next) => {
     // 3. 验证通过 将数据保存到数据库
     // 4. 发送成功响应
 
-    const user = new User(req.body.user);
+    let user = new User(req.body.user);
     await user.save();
+
+    user = user.toJSON();
+    delete user.password; // 不返回密码字段
+
     res.status(200).json({
       user: user
     });
@@ -23,8 +28,23 @@ exports.register = async (req, res, next) => {
 exports.login = async (req, res, next) => {
   try {
     // 获取用户输入
+    const user = req.user.toJSON();
+    delete user.password;
+    const token = await jwt.sign(
+      {
+        userId: user._id
+      },
+      jwtSecret,
+      {
+        expiresIn: '7d' // Token失效时间
+      }
+    );
     // 数据验证
     // 发送token 和成功响应
+    res.status(200).json({
+      ...user,
+      token
+    });
   } catch (err) {
     next(err);
   }
@@ -32,7 +52,9 @@ exports.login = async (req, res, next) => {
 
 exports.getCurrentUser = async (req, res, next) => {
   try {
-    res.send('register users');
+    res.status(200).json({
+      user: req.user
+    });
   } catch (err) {
     next(err);
   }

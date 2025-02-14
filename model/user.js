@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const baseModel = require('./baseModel.js');
+const md5 = require('../util/md5.js');
 
 const userSchema = new mongoose.Schema({
   userName: {
@@ -12,7 +13,9 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    set: value => md5(value), // 保证入库是md5加密后的密码
+    select: false // 查询时不返回密码字段
   },
   bio: {
     type: String,
